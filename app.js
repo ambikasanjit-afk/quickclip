@@ -9,7 +9,7 @@ function setStatus(msg, ok=false){
   statusEl.className = "status " + (ok ? "ok" : "err");
 }
 function makeCode(){
-  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const chars="0123456789";
   return Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join("");
 }
 text.addEventListener("input",()=>counter.textContent=`${text.value.length.toLocaleString()} / 10,000`);
@@ -35,7 +35,7 @@ document.querySelector("#copyBtn").onclick=async()=>{
 };
 
 document.querySelector("#openBtn").onclick=()=>{
-  const code=document.querySelector("#codeInput").value.trim().toUpperCase();
+  const code=document.querySelector("#codeInput").value.trim();
   const clips=JSON.parse(localStorage.getItem("quickclips")||"{}");
   if(!clips[code]){setStatus("Clip not found on this browser.");return;}
   text.value=clips[code].text;
