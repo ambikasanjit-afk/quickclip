@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="QuickClip — share text instantly across devices.">
   <title>QuickClip — Share text instantly</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 </head>
 <body>
   <main class="app">
@@ -12,10 +14,28 @@
       <div class="brand"><span class="logo">Q</span><span>QuickClip</span></div>
       <button id="themeBtn" class="icon-btn" aria-label="Toggle theme">☾</button>
     </header>
+
     <section class="hero">
       <div class="badge">⚡ Fast text sharing</div>
       <h1>Share text.<br><span>Anywhere.</span></h1>
       <p>Paste a message, generate a secure clip code, and open it from any device.</p>
+
+      <div class="sync-visual" aria-label="Animated copy to sync to paste demonstration">
+        <div class="sync-node" aria-hidden="true">
+          <span class="clipboard-icon">▣</span>
+          <span class="node-label">Copy</span>
+        </div>
+        <div class="sync-track" aria-hidden="true">
+          <span class="sync-line"></span>
+          <span id="syncClip" class="sync-clip">Hello, world!</span>
+          <span class="sync-ping"></span>
+        </div>
+        <div class="sync-node" aria-hidden="true">
+          <span class="clipboard-icon">▣</span>
+          <span class="node-label">Paste</span>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-top"><span>New clip</span><span id="counter">0 / 10,000</span></div>
         <textarea id="text" maxlength="10000" placeholder="Paste or type your text here..."></textarea>
