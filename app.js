@@ -3,16 +3,20 @@ const counter = document.querySelector("#counter");
 const result = document.querySelector("#result");
 const codeEl = document.querySelector("#code");
 const statusEl = document.querySelector("#status");
+const codeInput = document.querySelector("#codeInput");
 
 function setStatus(msg, ok=false){
   statusEl.textContent = msg;
   statusEl.className = "status " + (ok ? "ok" : "err");
 }
 function makeCode(){
-  const chars="0123456789";
-  return Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join("");
+  return Math.floor(100000 + Math.random() * 900000).toString();
 }
 text.addEventListener("input",()=>counter.textContent=`${text.value.length.toLocaleString()} / 10,000`);
+
+codeInput.addEventListener("input",()=>{
+  codeInput.value = codeInput.value.replace(/[^0-9]/g, "").slice(0, 6);
+});
 
 document.querySelector("#clearBtn").onclick=()=>{
   text.value=""; counter.textContent="0 / 10,000"; result.classList.add("hidden"); setStatus("");
@@ -35,7 +39,11 @@ document.querySelector("#copyBtn").onclick=async()=>{
 };
 
 document.querySelector("#openBtn").onclick=()=>{
-  const code=document.querySelector("#codeInput").value.trim();
+  const code=codeInput.value.trim();
+  if(!/^[0-9]{6}$/.test(code)){
+    setStatus("Enter a valid 6-digit numeric clip code.");
+    return;
+  }
   const clips=JSON.parse(localStorage.getItem("quickclips")||"{}");
   if(!clips[code]){setStatus("Clip not found on this browser.");return;}
   text.value=clips[code].text;
