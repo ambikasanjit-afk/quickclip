@@ -48,3 +48,42 @@ document.querySelector("#themeBtn").onclick=()=>{
   document.body.classList.toggle("dark");
   document.querySelector("#themeBtn").textContent=document.body.classList.contains("dark")?"☀":"☾";
 };
+
+// Lightweight hero animation: one clip travels Copy -> Sync -> Paste.
+function initSyncAnimation(){
+  const clip=document.querySelector("#syncClip");
+  const ping=document.querySelector(".sync-ping");
+  const track=document.querySelector(".sync-track");
+  if(!clip || !ping || !track) return;
+
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const runFallback=()=>{
+    clip.style.transform="translate3d(0,-50%,0)";
+    clip.style.opacity=".9";
+  };
+
+  if(reduced || !window.gsap){runFallback();return;}
+
+  let paused=false;
+  const travel=Math.max(1, track.clientWidth-clip.offsetWidth);
+  const tl=gsap.timeline({repeat:-1,repeatDelay:.35});
+
+  tl.set(clip,{x:0,yPercent:-50,opacity:0,scale:.96})
+    .to(clip,{opacity:1,duration:.18,ease:"power2.out"})
+    .to(clip,{x:travel*.48,duration:.48,ease:"power2.inOut"})
+    .to(clip,{x:travel,duration:.48,ease:"power2.inOut"})
+    .to(ping,{opacity:.85,scale:1.5,duration:.1,ease:"power2.out"},"-=.08")
+    .to(ping,{opacity:0,scale:3,duration:.34,ease:"power2.out"})
+    .to(clip,{opacity:0,scale:.96,duration:.16,ease:"power2.in"},"-=.25");
+
+  document.addEventListener("visibilitychange",()=>{
+    if(document.hidden && !paused){tl.pause();paused=true;}
+    else if(!document.hidden && paused){tl.resume();paused=false;}
+  });
+}
+
+if(document.readyState === "loading"){
+  window.addEventListener("DOMContentLoaded",initSyncAnimation,{once:true});
+}else{
+  initSyncAnimation();
+}
