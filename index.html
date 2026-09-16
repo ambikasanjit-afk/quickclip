@@ -18,7 +18,7 @@
     <section class="hero">
       <div class="badge">⚡ Fast text sharing</div>
       <h1>Share text.<br><span>Anywhere.</span></h1>
-      <p>Paste a message, generate a secure clip code, and open it from any device.</p>
+      <p>Paste a message, generate a secure <strong>6-digit number code</strong>, and open it from any device.</p>
 
       <div class="sync-visual" aria-label="Animated copy to sync to paste demonstration">
         <div class="sync-node" aria-hidden="true">
@@ -42,7 +42,7 @@
         <div class="actions"><button id="clearBtn" class="secondary">Clear</button><button id="shareBtn" class="primary">Share clip <span>↗</span></button></div>
       </div>
       <div id="result" class="result hidden"><div><small>YOUR CLIP CODE</small><strong id="code">------</strong></div><button id="copyBtn" class="secondary">Copy code</button></div>
-      <div class="retrieve"><span>Have a clip code?</span><div class="retrieve-row"><input id="codeInput" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 123456"><button id="openBtn" class="secondary">Open clip</button></div></div>
+      <div class="retrieve"><span>Have a clip code? <b>Numbers only</b></span><div class="retrieve-row"><input id="codeInput" type="text" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" autocomplete="off" placeholder="e.g. 123456"><button id="openBtn" class="secondary">Open clip</button></div></div>
       <p id="status" class="status"></p>
     </section>
     <footer>QuickClip · Simple, fast, no account required</footer>
