@@ -9,9 +9,14 @@ function setStatus(msg, ok=false){
   statusEl.textContent = msg;
   statusEl.className = "status " + (ok ? "ok" : "err");
 }
+
 function makeCode(){
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  // Always generate a 6-digit numeric code: 100000-999999.
+  const values = new Uint32Array(1);
+  crypto.getRandomValues(values);
+  return (100000 + (values[0] % 900000)).toString();
 }
+
 text.addEventListener("input",()=>counter.textContent=`${text.value.length.toLocaleString()} / 10,000`);
 
 codeInput.addEventListener("input",()=>{
@@ -29,8 +34,9 @@ document.querySelector("#shareBtn").onclick=async()=>{
   const clips=JSON.parse(localStorage.getItem("quickclips")||"{}");
   clips[code]={text:value,created:Date.now()};
   localStorage.setItem("quickclips",JSON.stringify(clips));
-  codeEl.textContent=code; result.classList.remove("hidden");
-  setStatus("Clip created on this browser. For cross-device sharing, connect the API backend.",true);
+  codeEl.textContent=code;
+  result.classList.remove("hidden");
+  setStatus("6-digit numeric clip code created.",true);
 };
 
 document.querySelector("#copyBtn").onclick=async()=>{
